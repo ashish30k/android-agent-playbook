@@ -1,0 +1,8 @@
+{
+  "name": "android-agent-playbook",
+  "description": "Staff-level Android engineering toolkit: full code review (security/MASVS, concurrency, UI, a11y, money-correctness), concurrency auditing, and 14 workflow commands (blind-spot-pass, blast-radius, pre-mortem, size-audit...)",
+  "version": "1.0.0",
+  "author": { "name": "Ashish Kumar" },
+  "homepage": "https://github.com/ashish30k/android-agent-playbook",
+  "keywords": ["android", "kotlin", "code-review", "coroutines", "security"]
+}

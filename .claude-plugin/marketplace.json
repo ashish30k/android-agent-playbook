@@ -1,0 +1,11 @@
+{
+  "name": "android-agent-playbook",
+  "owner": { "name": "Ashish Kumar" },
+  "plugins": [
+    {
+      "name": "android-agent-playbook",
+      "source": "./",
+      "description": "Staff-level Android engineering toolkit: code review skill, concurrency auditor, and 14 workflow commands"
+    }
+  ]
+}
