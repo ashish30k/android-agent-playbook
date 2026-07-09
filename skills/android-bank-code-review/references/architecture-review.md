@@ -8,12 +8,8 @@ The standard: nothing in this diff should be capable of producing a prod inciden
 - Currency attached to the amount (Money type), not implied. Formatting locale-aware and separate from arithmetic. No `==` on floating types anywhere near money.
 - Server-provided amounts echoed back for confirmation flows, not recomputed client-side.
 
-## Concurrency (deep-dive: android-concurrency-auditor skill)
-- No `runCatching`/broad `catch` swallowing `CancellationException` around suspend calls.
-- No `GlobalScope`/uncancelled hand-rolled scopes; `callbackFlow` has `awaitClose`.
-- `stateIn` sharing strategy deliberate (`WhileSubscribed(5_000)` default); UI collection lifecycle-aware.
-- Dispatchers injected; no blocking on Main (`runBlocking`, sync IO, non-suspend DAO). *Why: Main-thread blocking is the #1 ANR source, and ANR rate gates Play visibility.*
-- Any new mutable state reachable from 2+ coroutines: single source of truth or explicit synchronization.
+## Concurrency
+See `concurrency-review.md` — full checklist for scopes, cancellation, Flow, ViewModels, and threading.
 
 ## Lifecycle & state (crash class #1 in review)
 - Survives process death: critical flow state in `SavedStateHandle`/persistence, not only in ViewModel/singletons. *Why: Android kills backgrounded banking apps constantly (they're heavy and rarely foreground); users return mid-transfer to a restored process.*

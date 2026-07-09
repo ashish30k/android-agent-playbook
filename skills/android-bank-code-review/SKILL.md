@@ -15,7 +15,7 @@ Get the change set (`git diff <base>...HEAD`, or the PR/files the user points at
 |---|---|---|
 | **Security-critical** | auth/session/biometric code, networking, storage, crypto, WebView, deeplinks/IPC, `AndroidManifest.xml`, `network_security_config`, ProGuard/R8 rules, Gradle dependency changes | `references/security-review.md` |
 | **Money-handling** | amounts, balances, rates, fees, transactions, formatting | `references/architecture-review.md` §Money |
-| **Concurrency** | coroutines, Flow, scopes, new async work | `references/architecture-review.md` §Concurrency (deep-dive: the `android-concurrency-auditor` skill) |
+| **Concurrency** | coroutines, Flow, ViewModels, threading, new async work | `references/concurrency-review.md` |
 | **Architecture** | new modules, public API changes, DI modules, cross-module imports | `references/architecture-review.md` §Boundaries, §DI |
 | **Prod-readiness** | state/lifecycle code, error handling, offline/retry logic, DB schema or data-format changes, feature flags, anything touching startup | `references/architecture-review.md` §Lifecycle, §Errors, §Release |
 | **Routine** | none of the above | review inline, no reference needed |
