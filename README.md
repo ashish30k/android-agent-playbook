@@ -24,7 +24,7 @@ Prompts, slash commands, and skills for senior/staff Android platform work with 
   | `/review-to-lint` | Repeated review comment → enforced lint rule |
   | `/code-review` | Banking-grade PR review (security + money + prod-readiness) |
 
-- **skills/android-bank-code-review/** — full review workflow for banking apps: diff triage into lanes, OWASP MASVS v2.1 (MAS-L2) security checklist, money-correctness rules (BigDecimal, rounding, idempotency), and prod-readiness checks (process death, ANRs, migrations, rollout safety). Every rule carries its "why" so it teaches mixed-level reviewers.
+- **skills/android-bank-code-review/** — full review workflow for banking apps: diff triage into lanes, OWASP MASVS v2.1 (MAS-L2) security checklist, money-correctness rules (BigDecimal, rounding, idempotency), concurrency/ViewModel rules, and prod-readiness checks (process death, ANRs, migrations, rollout safety). Reviews trace beyond the diff — call sites, implementations, and contract breaks in unchanged code. Every rule carries its "why" so it teaches mixed-level reviewers.
 - **skills/android-concurrency-auditor/** — a deep 5-pass audit skill for coroutine/Flow code: scope leaks, broken cancellation (the `runCatching`/`CancellationException` trap), flow hygiene (`stateIn`/`WhileSubscribed`), dispatcher discipline, exception topology. Copy to `~/.claude/skills/` — it triggers automatically when you ask about leaks, cancellation, or flow bugs.
 
 ## Install
