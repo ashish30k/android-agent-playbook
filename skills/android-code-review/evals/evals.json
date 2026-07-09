@@ -1,0 +1,11 @@
+{
+  "skill_name": "android-code-review",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Review the PR at evals/fixture/pr.diff against the tree at evals/fixture/project (shopping app, payment checkout).",
+      "expected_output": "REQUEST CHANGES catching: false-success contract break in unchanged CheckoutViewModel, runCatching/CancellationException, Double money + truncation, client-computed fee, double-submit/idempotency, i18n regression, a11y contentDescription, unjustified permission, exported deeplink surface; skill format with verified-vs-assumed and a proposed lint rule.",
+      "files": ["fixture/pr.diff", "fixture/project"]
+    }
+  ]
+}

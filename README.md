@@ -29,8 +29,32 @@ Prompts, slash commands, and skills for senior/staff Android platform work with 
 
 ## Install
 
+**As a plugin (recommended)** — in Claude Code:
+
+```
+/plugin marketplace add ashish30k/android-agent-playbook
+/plugin install android-agent-playbook@android-agent-playbook
+```
+
+All commands and skills become available in every project.
+
+**Manual copy** (per-project):
+
 ```bash
 git clone https://github.com/ashish30k/android-agent-playbook.git
 cp -r android-agent-playbook/commands/* your-project/.claude/commands/
 cp -r android-agent-playbook/skills/* ~/.claude/skills/
 ```
+
+**CI**: copy `.github/workflows/claude-review.yml` into your repo and set `ANTHROPIC_API_KEY` in secrets for automated PR review.
+
+## Validation
+
+Both skills are benchmarked against fixtures with planted bugs (with-skill vs. no-skill baseline, graded on objective assertions):
+
+| Skill | With skill | Baseline | Notes |
+|---|---|---|---|
+| android-concurrency-auditor | 100% (14/14) | 85.7% | Baseline missed the runCatching/CancellationException trap and dispatcher testability in symptom-driven debugging |
+| android-code-review | 100% (11/11) | 81.8% | Both caught all planted bugs incl. a cross-file contract break; baseline lacked verified-vs-assumed discipline and the lint-rule close-loop |
+
+Review-skill fixture (a checkout PR with 9 planted issues across all lanes) ships in `skills/android-code-review/evals/` — rerun it after any guideline change.

@@ -1,0 +1,61 @@
+diff --git a/feature/checkout/PaymentRepository.kt b/feature/checkout/PaymentRepository.kt
+--- a/feature/checkout/PaymentRepository.kt
++++ b/feature/checkout/PaymentRepository.kt
+@@ -5,12 +5,14 @@ import kotlinx.coroutines.flow.*
+ class PaymentRepository(private val api: PaymentApi) {
+ 
+-    suspend fun submitPayment(order: Order): Receipt {
+-        val response = try {
+-            api.charge(order.toRequest())
+-        } catch (e: HttpException) {
+-            throw PaymentException("charge failed: ${e.code}")
+-        }
+-        return response.toReceipt()
+-    }
++    suspend fun submitPayment(order: Order): Receipt {
++        val response = runCatching { api.charge(order.toRequest()) }
++        val fee = order.amount * 0.029 + 0.30
++        return response.getOrNull()?.toReceipt(fee)
++            ?: Receipt(id = "", status = Status.FAILED, fee = fee)
++    }
+ 
+     suspend fun savedCards(): List<Card> = api.cards()
+ }
+ 
+-data class Order(val id: String, val amount: Long, val currency: String)
+-data class Receipt(val id: String, val status: Status)
++data class Order(val id: String, val amount: Double, val currency: String)
++data class Receipt(val id: String, val status: Status, val fee: Double)
+diff --git a/feature/checkout/CheckoutScreen.kt b/feature/checkout/CheckoutScreen.kt
+--- a/feature/checkout/CheckoutScreen.kt
++++ b/feature/checkout/CheckoutScreen.kt
+@@ -8,10 +8,14 @@ fun CheckoutScreen(viewModel: CheckoutViewModel, order: Order) {
+     val state by viewModel.ui.collectAsState()
+     when (val s = state) {
+-        is UiState.Success -> Text(stringResource(R.string.payment_success, s.receiptId))
++        is UiState.Success -> Text("Payment successful! Ref: " + s.receiptId)
+         is UiState.Error -> Text(s.message)
+         else -> {}
+     }
++    IconButton(onClick = { viewModel.pay(order) }) {
++        Icon(PayIcon, contentDescription = null)
++    }
+ }
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -2,6 +2,7 @@
+     <uses-permission android:name="android.permission.INTERNET" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+     <application android:allowBackup="true" android:label="ShopFast">
+@@ -10,5 +11,13 @@
++        <activity android:name=".checkout.PromoActivity" android:exported="true">
++            <intent-filter>
++                <action android:name="android.intent.action.VIEW" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <category android:name="android.intent.category.BROWSABLE" />
++                <data android:scheme="shopfast" android:host="promo" />
++            </intent-filter>
++        </activity>
+     </application>
+ </manifest>
